@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:25:32 by user              #+#    #+#             */
-/*   Updated: 2025/06/02 17:14:42 by user             ###   ########.fr       */
+/*   Updated: 2025/06/02 17:18:33 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	send_messages(pid_t pid, char *message)
 
 void	signal_handler(int signal)
 {
-	ft_printf("Success.");
+	ft_printf("Success");
 	(void)signal;
 	return ;
 }
