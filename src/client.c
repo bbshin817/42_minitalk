@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: sbaba <sbaba@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:25:32 by user              #+#    #+#             */
-/*   Updated: 2025/06/02 17:18:33 by user             ###   ########.fr       */
+/*   Updated: 2025/06/04 16:46:45 by sbaba            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
+
+int	validation(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] < '0' || '9' < str[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 void	send_bit(pid_t pid, unsigned char message)
 {
@@ -25,10 +39,7 @@ void	send_bit(pid_t pid, unsigned char message)
 		else
 			signal = SIGUSR1;
 		if (kill(pid, signal) == -1)
-		{
-			ft_printf("Failure!\n");
-			exit(EXIT_FAILURE);
-		}
+			display_error("Failed to send message.");
 		usleep(WAIT_TIME);
 		i--;
 	}
@@ -48,7 +59,6 @@ void	send_messages(pid_t pid, char *message)
 
 void	signal_handler(int signal)
 {
-	ft_printf("Success");
 	(void)signal;
 	return ;
 }
@@ -57,11 +67,11 @@ int	main(int argc, char *argv[])
 {
 	pid_t	pid;
 
-	if (argc != 3)
-		return (-1);
+	if (argc != 3 || !validation(argv[1]))
+		display_error("Invalid Argument.");
 	pid = ex_atoi(argv[1]);
 	if (pid <= 0)
-		return (-1);
+		display_error("Invalid Pid.");
 	signal(SIGUSR2, signal_handler);
 	send_messages(pid, argv[2]);
 	return (0);
